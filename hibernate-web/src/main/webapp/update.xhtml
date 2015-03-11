@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:passthrough="http://xmlns.jcp.org/jsf/passthrough"     
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">     
+
+    <h:head>
+        <f:metadata>  
+         <f:viewParam id="userId" name="userId" value="#{userViewBean.userId}"/>             
+         <f:event type="preRenderView" listener="#{userViewBean.init()}"/>          
+        </f:metadata>  
+    </h:head>
+    <f:view contracts="default" transient="false">
+        <ui:composition template="/template.xhtml">              
+            <ui:define name="content">   
+                <h:form prependId="false" id="addUser">
+                    <!--=== Purchase Block ===-->
+                    <p:growl/>
+
+                    <div class="container content">
+                        <div class="row">
+                            <hr/>
+                            <h:outputLink value="index.jsf" styleClass="btn btn-primary">
+                                User List
+                            </h:outputLink>                                
+                            <hr/>
+                            <label>First name</label>
+                            <div class="row margin-bottom-20">
+                                <div class="col-md-7 col-md-offset-0">
+                                    <input type="text" jsf:id="firstname" jsf:required="true"  jsf:value="#{userViewBean.user.firstname}" class="form-control">
+                                        <f:validateLength maximum="50"/>
+                                    </input>
+                                </div>                
+                            </div>
+                            <label>Last name <span class="color-red">*</span></label>
+                            <div class="row margin-bottom-20">
+                                <div class="col-md-7 col-md-offset-0">
+                                    <input type="text" jsf:id="lastname" jsf:required="true" jsf:value="#{userViewBean.user.lastname}" class="form-control">
+                                        <f:validateLength maximum="50"/>
+                                    </input>                
+                                </div>
+                            </div>
+                            <label>E-mail<span class="color-red">*</span></label>
+                            <div class="row margin-bottom-20">
+                                <div class="col-md-7 col-md-offset-0">
+                                    <input type="text" jsf:id="email"  readonly="true" jsf:value="#{userViewBean.user.email}" class="form-control">
+                                        <f:validator  validatorId="EmailValidator"/>
+                                        <f:validateLength maximum="100"/>
+                                    </input>                
+                                </div>
+                            </div>
+                            <hr/>
+                            <p><button type="submit" jsf:action="#{userViewBean.updateUser()}" class="btn btn-info">Update</button></p>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>

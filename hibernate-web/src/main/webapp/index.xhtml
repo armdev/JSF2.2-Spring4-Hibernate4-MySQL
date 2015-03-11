@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"         
+      xmlns:passthrough="http://xmlns.jcp.org/jsf/passthrough"     
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">     
+
+    <f:view contracts="default" transient="false">
+        <ui:composition template="/template.xhtml">              
+            <ui:define name="content">   
+                <h:form prependId="false" id="mainFormId">
+                    <!--=== Purchase Block ===-->
+                    <p:growl/>
+                    <div class="container content">
+                        <div class="row">
+                            <hr/>
+                            <h:outputLink value="new.jsf" styleClass="btn btn-danger">
+                                Add new user
+                            </h:outputLink>                                
+                            <hr/>
+                            <p:dataTable var="list"  value="#{userManagedBean.userList}" id="users" 
+                                         styleClass="table table-striped"
+                                         paginator="true" rows="30" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink}
+                                         {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+                                         selection="#{userManagedBean.user}" 
+                                         rowsPerPageTemplate="5,10,15,20,25" >
+                                <p:column id="firstname" class="success">
+                                    <f:facet name="header">
+                                        <h:outputText value="firstname"/>
+                                    </f:facet>      
+                                    <h:outputText value="#{list.firstname}"/>
+                                </p:column>  
+                                <p:column styleClass="warning">
+                                    <f:facet name="header">
+                                        <h:outputText value="lastname"/>
+                                    </f:facet>         
+                                    <h:outputText  value="#{list.lastname}"/>                                  
+                                </p:column>    
+                                <p:column styleClass="danger">
+                                    <f:facet name="header">
+                                        <h:outputText value="email"/>
+                                    </f:facet>         
+                                    <h:outputText  value="#{list.email}"/>                                  
+                                </p:column>   
+                                <p:column styleClass="active">
+                                    <f:facet name="header">
+                                        <h:outputText value="Update"/>
+                                    </f:facet>        
+                                    <h:link outcome="update.jsf?faces-redirect=true" value="Update" includeViewParams="true"  styleClass="btn btn-default">                                       
+                                        <f:param name="userId" value="#{list.id}"/>
+                                    </h:link>                                    
+                                </p:column>   
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Delete"/>
+                                    </f:facet>                     
+                                    <h:commandButton value="Delete" onclick="if (!confirm('#{i18n.confirmdelete}')){return false;}" action="#{userManagedBean.deleteUser(list.id)}" styleClass="btn btn-info"/>
+                                </p:column>   
+                            </p:dataTable>  
+                        </div>
+                    </div>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </f:view>
+</html>
